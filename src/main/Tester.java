@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
+import math.Integrals;
 import oop.Polymorphism;
 
 public class Tester {
@@ -38,7 +39,7 @@ public class Tester {
 		in = new Scanner(System.in);
 		
 		
-		run(Polymorphism.class, 10, false, false);
+		run(Integrals.class, 1, true, true);
 	}
 	
 	private static void run(Class<?> testclass, int execTimes, boolean printAllRunData, boolean showUserPrints){
