@@ -19,8 +19,18 @@ public class Tester {
 		public int runTimes() default 1;
 	}
 	
-	public static Scanner in;
-	public static PrintStream out;
+	private static Scanner in;
+	private static PrintStream out;
+	private static boolean print;
+	
+	public static void println(String s){
+		if(print)
+			out.println(s);
+	}
+	public static void print(String s){
+		if(print)
+			out.print(s);
+	}
 	
 	public static void main(String[] args){
 		
@@ -28,10 +38,10 @@ public class Tester {
 		in = new Scanner(System.in);
 		
 		
-		run(Polymorphism.class, 10);
+		run(Polymorphism.class, 10, false, false);
 	}
 	
-	private static void run(Class<?> testclass, int execTimes){
+	private static void run(Class<?> testclass, int execTimes, boolean printAllRunData, boolean showUserPrints){
 		Object instance = null;
 		try{
 			instance = testclass.newInstance();
@@ -47,6 +57,7 @@ public class Tester {
 		out.println("Executing tests in class: "+testclass.getName());
 		
 		int count = 0;
+		print = showUserPrints;
 		
 		Method[] methods = testclass.getDeclaredMethods();
 		for (Method method : methods) {
@@ -67,9 +78,12 @@ public class Tester {
 						method.invoke(instance);
 						long time = System.currentTimeMillis() - starttime;
 						timeAvg += time;
-						out.printf("\nTest passed: '%s' time - %d ms \n\n", name, time);
+						
+						if(printAllRunData)
+							out.printf("\nTest passed: '%s' time - %d ms \n\n", name, time);
 					}catch(Throwable t){
-						out.printf("\nTest failed: '%s' \n\n", name, t.getMessage());
+						if(printAllRunData)
+							out.printf("\nTest failed: '%s' \n\n", name, t.getMessage());
 					}
 				}
 				
